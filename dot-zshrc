@@ -1,0 +1,23 @@
+for modpath in ${XDG_CONFIG_HOME:="/home/treyvon/.config/zsh"}/*(/N); do
+    typeset mod=$(basename $modpath)
+    if zstyle -t 'zsh:module:$mod' loaded; then
+        continue
+    fi
+
+    if [[ -s $modpath/init.zsh ]]; then
+        source $modpath/init.zsh
+    fi
+
+    if [[ $? -eq 0 ]]; then
+        zstyle -t 'zsh:module:$mod' loaded 'true';
+    else
+        zstyle -t 'zsh:module:$mod' loaded 'false';
+    fi
+done
+
+BROWSER='browser'
+EDITOR='editor'
+PAGER='pager'
+
+autoload -U promptinit && promptinit
+prompt bart # sets bart prompt theme
