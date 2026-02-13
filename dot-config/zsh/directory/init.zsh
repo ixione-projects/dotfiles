@@ -9,7 +9,7 @@ setopt EXTENDED_GLOB        # Use extended globbing syntax.
 unsetopt CLOBBER            # Do not overwrite existing files with > and >>.
 							# Use >! and >>! to bypass.
 							 
-if ! zstyle -t ':prezto:module:directory:alias' skip; then
+if ! zstyle -t ':zsh:module:directory:alias' skip; then
 	alias -- -='cd -'
 	alias d='dirs -v'
 	for index ({1..9}) alias "$index"="cd +${index}"; unset index

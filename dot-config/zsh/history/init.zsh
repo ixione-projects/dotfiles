@@ -14,6 +14,6 @@ HISTFILE=$HOME/.zsh_history
 HISTSIZE=10000
 SAVEHIST=$HISTSIZE
 
-if ! zstyle -t ':prezto:module:history:alias' skip; then
+if ! zstyle -t ':zsh:module:history:alias' skip; then
 	alias history-stat="history 0 | awk '{count[\$2]++} END {for (line in count) print count[line], line}' | sort -nr | head"
 fi

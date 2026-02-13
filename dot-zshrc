@@ -1,6 +1,8 @@
-for modpath in ${XDG_CONFIG_HOME:="/home/treyvon/.config/zsh"}/*(/N); do
-    typeset mod=$(basename $modpath)
-    if zstyle -t 'zsh:module:$mod' loaded; then
+zstyle ':zsh:module:prompt' theme 'starship'
+
+for modpath in ${XDG_CONFIG_HOME:=/home/treyvon/.config/zsh}/*(/N); do
+    mod=$(basename $modpath)
+    if zstyle -t "zsh:module:$mod" loaded; then
         continue
     fi
 
@@ -9,15 +11,13 @@ for modpath in ${XDG_CONFIG_HOME:="/home/treyvon/.config/zsh"}/*(/N); do
     fi
 
     if [[ $? -eq 0 ]]; then
-        zstyle -t 'zsh:module:$mod' loaded 'true';
+        zstyle "zsh:module:$mod" loaded 'true';
     else
-        zstyle -t 'zsh:module:$mod' loaded 'false';
+        zstyle "zsh:module:$mod" loaded 'false';
     fi
+    unset mod
 done
 
 BROWSER='browser'
 EDITOR='editor'
 PAGER='pager'
-
-autoload -U promptinit && promptinit
-prompt bart # sets bart prompt theme
