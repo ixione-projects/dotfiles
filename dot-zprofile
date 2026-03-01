@@ -1,33 +1,22 @@
-# set PATH so it includes user's private bin if it exists
-if [[ -d "$HOME/bin" ]] ; then
-	PATH="$HOME/bin:$PATH"
-fi
+function safe_ensure_path {
+	if [[ -d "$1" && ${path[(ie)"$1"]} > ${#path} ]]; then
+	    export PATH="$1:$PATH"
+	fi
+}
 
-# set PATH so it includes user's private bin if it exists
-if [[ -d "$HOME/.local/bin" ]] ; then
-	PATH="$HOME/.local/bin:$PATH"
-fi
+function safe_source {
+	test -s "$1" && . "$1"
+}
 
-. "$HOME/.cargo/env"
+safe_ensure_path "$HOME/bin";
+safe_ensure_path "$HOME/.local/bin";
 
-if [ -d "$HOME/.sdkman" ] ; then
-	export SDKMAN_DIR="$HOME/.sdkman"
-fi
-test -s "$HOME/.sdkman/bin/sdkman-init.sh" && source "$HOME/.sdkman/bin/sdkman-init.sh" # This loads sdkman
+export VCPKG_ROOT="$HOME/.local/src/vcpkg/current"
 
-if [ -d "$HOME/.nvm" ] ; then
-	export NVM_DIR="$HOME/.nvm"
-fi
-test -s "$NVM_DIR/nvm.sh" && source "$NVM_DIR/nvm.sh"  # This loads nvm
-test -s "$NVM_DIR/bash_completion" && source "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+safe_source "$HOME/.cargo/env"
+safe_ensure_path "$HOME/go/bin"
+safe_source "$HOME/.deno/env"
 
-test -s "$HOME/.cargo/env" && 
-if [ -d"$HOME/.bun" ] ; then
-	export BUN_INSTALL="$HOME/.bun"
-	export PATH="$BUN_INSTALL/bin:$PATH"
-fi
-test -s "/home/treyvon/.bun/_bun" && source "/home/treyvon/.bun/_bun" # This loads bun completions
-
-if command -v luarocks; then
-	eval "$(luarocks path --bin)"
+if (( $+commands[luarocks] )); then
+	eval "$(luarocks path)"
 fi

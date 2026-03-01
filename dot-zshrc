@@ -1,5 +1,9 @@
 zstyle ':zsh:module:prompt' theme 'starship'
 
+EDITOR='editor'
+BROWSER='browser'
+PAGER='pager'
+
 for modpath in ${XDG_CONFIG_HOME:=/home/treyvon/.config/zsh}/*(/N); do
     mod=$(basename $modpath)
     if zstyle -t "zsh:module:$mod" loaded; then
@@ -17,7 +21,3 @@ for modpath in ${XDG_CONFIG_HOME:=/home/treyvon/.config/zsh}/*(/N); do
     fi
     unset mod
 done
-
-BROWSER='browser'
-EDITOR='editor'
-PAGER='pager'
